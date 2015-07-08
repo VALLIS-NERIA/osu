@@ -98,7 +98,7 @@ namespace osuSBNoteMaker {
 
             fsosu = new FileStream(osuPath, FileMode.Open, FileAccess.Read);
             srosu = new StreamReader(fsosu, Encoding.Default);
-            fsosu.Seek(0, SeekOrigin.Begin);
+            //fsosu.Seek(0, SeekOrigin.Begin);
             //设置
             settings = se;
             if (settings.ics.HasValue) {
@@ -142,8 +142,12 @@ namespace osuSBNoteMaker {
             //开始转换note
             logBox.AppendText("Working..." + Environment.NewLine);
             string[] data;
+            string content = srosu.ReadLine();
+            while (!content.StartsWith("[HitObjects]")) {
+                content = srosu.ReadLine();
+            }
             while (srosu.Peek() >= 0) {
-                string content = srosu.ReadLine();
+                content = srosu.ReadLine();
                 data = content.Split(',');
                 HitObject note = new HitObject(Convert.ToInt32(data[0]), Convert.ToInt32(data[1]), Convert.ToInt32(data[2]), GetObjectType(Convert.ToInt32(data[3])));
                 swSB.WriteLine(makesb(note));
