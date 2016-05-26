@@ -85,7 +85,7 @@ namespace osuSBNoteMaker {
             }
             srosu.Close();
             fsosu.Close();
-            MessageBox.Show("文件不合法！");
+            MessageBox.Show("文件不清真！");
             return false;
         }
 
@@ -202,30 +202,32 @@ namespace osuSBNoteMaker {
             string objScale = csScale.ToString();
             string s = null;
             string endl = Environment.NewLine;
-            if (type == ObjectType.Circle) {
-                //hitcircle
-                s = s.AppendLine("Sprite,Foreground,Centre,\"{2}.png\",{0},{1}", x, y, Common.skinFile[0]);
+            if (type != ObjectType.Spinner) {
+                if (type == ObjectType.Circle) {
+                    //hitcircle
+                    s = s.AppendLine("Sprite,Foreground,Centre,\"{2}.png\",{0},{1}", x, y, Common.skinFile[0]);
+                    s = s.AppendLine("  L,{0},1 ", objTime);
+                    s = s.AppendLine("  F,0,0,150,0,1");
+                    s = s.AppendLine("  C,0,0,0,{0},{1},{2}", R, G, B);
+                    s = s.AppendLine("  S,0,0,{0},{1}", arTime, objScale);
+                    s = s.AppendLine("  F,0,150,{0},1", arTime);
+                    s = s.AppendLine("  F,0,{0},{1},1,0", arTime, lifeTime);
+                    //hitcircleoverlay
+                    s = s.AppendLine("Sprite,Foreground,Centre,\"{2}.png\",{0},{1}", x, y, Common.skinFile[1]);
+                    s = s.AppendLine("  L,{0},1 ", objTime);
+                    s = s.AppendLine("  F,0,0,150,0,1");
+                    s = s.AppendLine("  S,0,0,{0},{1}", arTime, objScale);
+                    s = s.AppendLine("  F,0,150,{0},1", arTime);
+                    s = s.AppendLine("  F,0,{0},{1},1,0", arTime, lifeTime);
+                }
+                //approachcircle
+                s = s.AppendLine("Sprite,Foreground,Centre,\"{2}.png\",{0},{1}", x, y, Common.skinFile[2]);
                 s = s.AppendLine("  L,{0},1 ", objTime);
-                s = s.AppendLine("  F,0,0,150,0,1");
+                s = s.AppendLine("  F,0,0,{0},0,1", arTime);
+                s = s.AppendLine("  S,0,0,{0},2.1,{1}", arTime, objScale);
                 s = s.AppendLine("  C,0,0,0,{0},{1},{2}", R, G, B);
-                s = s.AppendLine("  S,0,0,{0},{1}", arTime, objScale);
-                s = s.AppendLine("  F,0,150,{0},1", arTime);
-                s = s.AppendLine("  F,0,{0},{1},1,0", arTime, lifeTime);
-                //hitcircleoverlay
-                s = s.AppendLine("Sprite,Foreground,Centre,\"{2}.png\",{0},{1}", x, y, Common.skinFile[1]);
-                s = s.AppendLine("  L,{0},1 ", objTime);
-                s = s.AppendLine("  F,0,0,150,0,1");
-                s = s.AppendLine("  S,0,0,{0},{1}", arTime, objScale);
-                s = s.AppendLine("  F,0,150,{0},1", arTime);
                 s = s.AppendLine("  F,0,{0},{1},1,0", arTime, lifeTime);
             }
-            //approachcircle
-            s = s.AppendLine("Sprite,Foreground,Centre,\"{2}.png\",{0},{1}", x, y, Common.skinFile[2]);
-            s = s.AppendLine("  L,{0},1 ", objTime);
-            s = s.AppendLine("  F,0,0,{0},0,1", arTime);
-            s = s.AppendLine("  S,0,0,{0},2.1,{1}", arTime, objScale);
-            s = s.AppendLine("  C,0,0,0,{0},{1},{2}", R, G, B);
-            s = s.AppendLine("  F,0,{0},{1},1,0", arTime, lifeTime);
             return s;
         }
 
